@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.devtoolsKsp)
 }
 
 android {
@@ -67,4 +68,9 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.androidx.webkit)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation (libs.androidx.runtime.livedata)
+    annotationProcessor(libs.androidx.room.room.compiler)
+    ksp(libs.androidx.room.room.compiler)
 }

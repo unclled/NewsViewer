@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.unclled.newsviewer.features.api_requests.NewsApiService
 import com.unclled.newsviewer.features.api_requests.Requests
@@ -18,15 +21,24 @@ import java.time.format.DateTimeFormatter
 class NewsViewModel : ViewModel() {
     private val _newsList = mutableStateListOf<News>()
     val newsList: List<News> = _newsList
+    var selectedCategory = mutableStateOf("entertainment")
 
-    init {
-        fetchNews("entertainment")
+    fun updateCategory(newCategory: String, context: Context) {
+        selectedCategory.value = newCategory
+        saveSelectedCategory(newCategory, context)
     }
 
-    fun fetchNews(category: String) {
+    fun loadCategory(context: Context) {
+        selectedCategory.value = getSelectedCategory(
+            "selected_category",
+            "entertainment",
+            context
+        )
+    }
+    fun fetchNews(category: String, q: String) {
         try {
             val requests = Requests(NewsApiService.create())
-            requests.sendRequest(category)
+            requests.sendRequest(category, q)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ newsResponse ->
@@ -63,7 +75,6 @@ class NewsViewModel : ViewModel() {
 
     private fun removeRedundantInfo(newsList: List<News>): List<News> {
         newsList.forEach { news ->
-            //news.content = clearContent(news.content)
             news.title = clearTitle(news.title)
             news.publishedAt = formatDate(news.publishedAt)
         }
@@ -85,17 +96,5 @@ class NewsViewModel : ViewModel() {
             index = i
         }
         return title.substring(0, index - 1)
-    }
-
-    private fun clearContent(content: String): String {
-        println(content)
-        val clearedContent = content.trim().replace("\n", "")
-        var index = content.length
-        for (i in index - 1 downTo 1) {
-            if (content[i] == '[')
-                break
-            index = i
-        }
-        return clearedContent.substring(0, index - 2)
     }
 }

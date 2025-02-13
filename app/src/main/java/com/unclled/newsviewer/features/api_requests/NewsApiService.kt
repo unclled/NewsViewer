@@ -38,10 +38,4 @@ interface NewsApiService {
             return retrofit.create(NewsApiService::class.java)
         }
     }
-
-    object NewsSearcherProvider {
-        fun provideNewsSearcher(): Requests {
-            return Requests(apiService = create())
-        }
-    }
 }

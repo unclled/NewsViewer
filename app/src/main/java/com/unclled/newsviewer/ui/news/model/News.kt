@@ -6,7 +6,7 @@ data class News(
     var title: String,
     val description: String?,
     val url: String,
-    val urlToImage: String,
+    val urlToImage: String?,
     var publishedAt: String,
     var content: String,
 )

@@ -29,15 +29,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.unclled.newsviewer.features.api_requests.NewsApiService
+import com.unclled.newsviewer.features.database.SavedNewsViewModel
 import com.unclled.newsviewer.ui.news.view.CategoryPickerDialog
 import com.unclled.newsviewer.ui.news.view.NewsPage
+import com.unclled.newsviewer.ui.news.viewmodel.NewsViewModel
 import com.unclled.newsviewer.ui.profile.ProfilePage
-import com.unclled.newsviewer.ui.saved_news.SavedNewsPage
+import com.unclled.newsviewer.ui.saved_news.view.SavedNewsPage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(modifier: Modifier = Modifier) {
+fun MainScreen(vm: SavedNewsViewModel = viewModel(), modifier: Modifier = Modifier) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var searchQuery by rememberSaveable { mutableStateOf("") }
     val showCategoryPicker = remember { mutableStateOf(false) }
@@ -47,7 +52,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
         NavItem("News", Icons.Default.Info, 0),
         NavItem("Profile", Icons.Default.AccountCircle, 0),
     )
-
     var selectedIndex by remember { mutableIntStateOf(1) }
 
     Scaffold(
@@ -61,7 +65,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         query = searchQuery,
                         onQueryChange = { newValue -> searchQuery = newValue },
                         onSearch = {
-                            //запустить поиск
+                            NewsViewModel().fetchNews("", searchQuery)
                             expanded = false
                         },
                         active = expanded,
@@ -110,7 +114,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
         }
     ) { innerPadding ->
         Box(modifier = modifier.padding(innerPadding)) {
-            ContentScreen(modifier = Modifier.padding(innerPadding), selectedIndex)
+            ContentScreen(vm, selectedIndex)
         }
     }
     if (showCategoryPicker.value) {
@@ -122,10 +126,10 @@ fun MainScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ContentScreen(modifier: Modifier = Modifier, selectedIndex: Int) {
+fun ContentScreen(vm: SavedNewsViewModel = viewModel(), selectedIndex: Int) {
     when (selectedIndex) {
-        0 -> SavedNewsPage()
-        1 -> NewsPage()
+        0 -> SavedNewsPage(vm)
+        1 -> NewsPage(vm)
         2 -> ProfilePage()
     }
 }

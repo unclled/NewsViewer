@@ -69,8 +69,8 @@ fun CategoryPicker(
         Row(modifier.align(Alignment.CenterHorizontally)) {
             Button(
                 onClick = {
-                    viewModel.saveSelectedCategory(selectedOption, context)
-                    viewModel.fetchNews(selectedOption)
+                    viewModel.updateCategory(selectedOption, context)
+                    viewModel.fetchNews(selectedOption, "")
                     showCategoryPicker(false)
                 }
             ) {
