@@ -1,7 +1,11 @@
 package com.unclled.newsviewer.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -19,8 +23,12 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarColors
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -28,7 +36,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,13 +65,26 @@ fun MainScreen(vm: SavedNewsViewModel = viewModel(), modifier: Modifier = Modifi
     var selectedIndex by remember { mutableIntStateOf(1) }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(16, 16, 16, 255)),
         topBar = {
             TopAppBar(
+                modifier = modifier.fillMaxHeight(0.123f),
+                colors = TopAppBarColors(
+                    containerColor = Color(146, 178, 238, 255),
+                    actionIconContentColor = Color.White,
+                    navigationIconContentColor = Color.White,
+                    scrolledContainerColor = Color(16, 16, 16, 255),
+                    titleContentColor = Color.White
+                ),
                 title = { Text("") },
                 actions = {
                     SearchBar(
-                        modifier = modifier.size(340.dp),
+                        modifier = Modifier
+                            .fillMaxWidth(0.86f)
+                            .height(52.dp)
+                            .align(Alignment.CenterVertically),
                         query = searchQuery,
                         onQueryChange = { newValue -> searchQuery = newValue },
                         onSearch = {
@@ -80,7 +103,7 @@ fun MainScreen(vm: SavedNewsViewModel = viewModel(), modifier: Modifier = Modifi
                             )
                         },
                     ) {}
-                    IconButton (
+                    IconButton(
                         onClick = { showCategoryPicker.value = true },
                         modifier.padding(start = 4.dp)
                     ) {
@@ -90,22 +113,31 @@ fun MainScreen(vm: SavedNewsViewModel = viewModel(), modifier: Modifier = Modifi
             )
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = Color(146, 178, 238, 255)
+            ) {
                 navItemList.forEachIndexed { index, navItem ->
                     NavigationBarItem(
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
                         label = {
-                            Text(text = navItem.label)
+                            Text(text = navItem.label, color = Color.White)
                         },
                         icon = {
                             BadgedBox(badge = {
                                 if (navItem.badgeCount > 0)
                                     Badge {
-                                        Text(text = navItem.badgeCount.toString())
+                                        Text(
+                                            text = navItem.badgeCount.toString(),
+                                            color = Color.White
+                                        )
                                     }
                             }) {
-                                Icon(imageVector = navItem.icon, contentDescription = "Icon")
+                                Icon(
+                                    imageVector = navItem.icon,
+                                    contentDescription = "Icon",
+                                    tint = Color.White
+                                )
                             }
                         }
                     )

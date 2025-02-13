@@ -82,9 +82,7 @@ fun NewsPage(
             WebViewScreen(webViewUrl.value)
         } else {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0, 0, 0, 245)),
+                modifier.background(Color(16, 16, 16, 255)),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ProfilePage() {
     Column(
-        modifier = Modifier.fillMaxSize().background(Color(0xFF000000)),
+        modifier = Modifier.fillMaxSize().background(Color(16, 16, 16, 255)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

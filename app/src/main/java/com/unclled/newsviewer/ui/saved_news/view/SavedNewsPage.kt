@@ -54,7 +54,7 @@ fun SavedNewsPage(vm: SavedNewsViewModel, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF000000)),
+            .background(Color(16, 16, 16, 255)),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
