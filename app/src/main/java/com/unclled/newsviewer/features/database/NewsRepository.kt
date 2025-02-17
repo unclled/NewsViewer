@@ -14,7 +14,7 @@ class NewsRepository(private val newsDao: NewsDao) {
         return newsDao.saveNewsIfNotExists(news)
     }
 
-    suspend fun isNewsExist(title: String) : Boolean {
+    suspend fun isNewsExist(title: String): Boolean {
         return newsDao.isNewsExists(title)
     }
 
@@ -22,5 +22,9 @@ class NewsRepository(private val newsDao: NewsDao) {
         coroutine.launch(Dispatchers.IO) {
             newsDao.deleteNews(title)
         }
+    }
+
+    fun getNewsByTitle(title: String): LiveData<List<NewsEntity>> {
+        return newsDao.getNewsByTitle(title)
     }
 }

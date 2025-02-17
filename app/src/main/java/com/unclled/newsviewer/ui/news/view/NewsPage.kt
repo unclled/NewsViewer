@@ -27,9 +27,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,10 +51,10 @@ import com.unclled.newsviewer.features.database.SavedNewsViewModel
 import com.unclled.newsviewer.ui.news.viewmodel.NewsViewModel
 import com.unclled.newsviewer.ui.web_view.WebViewScreen
 
-
 @Composable
 fun NewsPage(
     vm: SavedNewsViewModel = viewModel(),
+    onSearch: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: NewsViewModel = viewModel()
 ) {
@@ -65,15 +67,13 @@ fun NewsPage(
 
     val isLoading = remember { mutableStateOf(true) }
     val isSavedMap = remember { mutableStateMapOf<String, Boolean>() }
+    var searchQuery by remember { mutableStateOf("") }
 
     SwipeRefresh(
         state = rememberSwipeRefreshState(isRefreshing.value),
         onRefresh = {
             isRefreshing.value = true
-            viewModel.fetchNews(
-                viewModel.selectedCategory.value,
-                ""
-            )
+            viewModel.fetchNews(viewModel.selectedCategory.value, "")
             isRefreshing.value = false
             isLoading.value = false
         },
@@ -89,10 +89,7 @@ fun NewsPage(
                 LaunchedEffect(Unit) {
                     if (!isLoaded) {
                         viewModel.loadCategory(context)
-                        viewModel.fetchNews(
-                            viewModel.selectedCategory.value,
-                            ""
-                        )
+                        viewModel.fetchNews(viewModel.selectedCategory.value, "")
                         isLoading.value = true
                         isLoaded = true
                         isLoading.value = false

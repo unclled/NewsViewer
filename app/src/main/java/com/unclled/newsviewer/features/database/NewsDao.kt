@@ -28,4 +28,7 @@ interface NewsDao {
 
     @Query("DELETE FROM NEWS WHERE title = :title")
     fun deleteNews(title: String)
+
+    @Query("SELECT * FROM news WHERE title LIKE '%' || :title || '%'")
+    fun getNewsByTitle(title: String) : LiveData<List<NewsEntity>>
 }

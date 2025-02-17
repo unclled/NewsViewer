@@ -58,7 +58,7 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-    fun saveSelectedCategory(category: String, context: Context) {
+    private fun saveSelectedCategory(category: String, context: Context) {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences("Preferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()

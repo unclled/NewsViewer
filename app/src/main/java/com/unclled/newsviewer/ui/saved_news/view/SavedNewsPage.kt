@@ -31,6 +31,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,13 +45,18 @@ import coil.compose.rememberAsyncImagePainter
 import com.unclled.newsviewer.features.database.SavedNewsViewModel
 
 @Composable
-fun SavedNewsPage(vm: SavedNewsViewModel, modifier: Modifier = Modifier) {
+fun SavedNewsPage(
+    vm: SavedNewsViewModel,
+    onSearch: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val shape = RoundedCornerShape(8.dp)
     val showWebView = remember { mutableStateOf(false) }
     val webViewUrl = remember { mutableStateOf("") }
-    val newsList by vm.newsList.observeAsState(listOf())
+    val newsList by vm.newsList.observeAsState(emptyList())
 
     val isSavedMap = remember { mutableStateMapOf<String, Boolean>() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

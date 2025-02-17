@@ -1,12 +1,13 @@
 package com.unclled.newsviewer.features.database
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class SavedNewsViewModel(application: Application): ViewModel() {
+class SavedNewsViewModel(application: Application) : AndroidViewModel(application) {
     val newsList: LiveData<List<NewsEntity>>
     private val repository: NewsRepository
 
@@ -34,6 +35,10 @@ class SavedNewsViewModel(application: Application): ViewModel() {
 
     fun deleteNews(newsEntity: String) {
         repository.deleteNews(newsEntity)
+    }
+
+    fun getNewsByTitle(title: String): LiveData<List<NewsEntity>> {
+        return repository.getNewsByTitle(title)
     }
 
 }
