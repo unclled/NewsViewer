@@ -12,5 +12,4 @@
 
 # **Скриншоты**
 
-<img src="https://raw.githubusercontent.com/unclled/NewsViewer/main/images/1.png" border="0">
-<img src="https://raw.githubusercontent.com/unclled/NewsViewer/main/images/2.png" border="0">
+<img src="https://raw.githubusercontent.com/unclled/NewsViewer/main/images/1.png" border="0" width="350"> <img src="https://raw.githubusercontent.com/unclled/NewsViewer/main/images/2.png" border="0" width="350">
