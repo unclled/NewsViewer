@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -7,6 +9,7 @@ plugins {
 android {
     namespace = "com.unclled.newsviewer"
     compileSdk = 35
+    android.buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.unclled.newsviewer"
@@ -16,6 +19,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = gradleLocalProperties(rootDir, providers)
+        buildConfigField("String", "NEWS_API_KEY", "\"${localProperties.getProperty("NEWS_API_KEY")}\"")
     }
 
     buildTypes {
@@ -70,7 +76,7 @@ dependencies {
     implementation(libs.androidx.webkit)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation (libs.androidx.runtime.livedata)
+    implementation(libs.androidx.runtime.livedata)
     annotationProcessor(libs.androidx.room.room.compiler)
     ksp(libs.androidx.room.room.compiler)
 }
